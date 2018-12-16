@@ -2,7 +2,7 @@ package com.damianfanaro.akka
 
 import akka.actor.AbstractActor
 
-class AkkaBot : AbstractActor() {
+class Robot : AbstractActor() {
 
     private lateinit var direction: Direction
     private var moving = false
@@ -16,6 +16,12 @@ class AkkaBot : AbstractActor() {
         moving = true
         direction = move.direction
         println("path[${self.path()}] I am now moving $direction")
+
+        val random = java.util.Random()
+        val nextInt = random.nextInt(10)
+        if (nextInt % 2 == 0) {
+            context.stop(self)
+        }
     }
 
     private fun onStop(stop: Stop) {
@@ -30,6 +36,4 @@ enum class Direction {
 }
 
 class Stop
-class GetRobotState
 class Move(val direction: Direction)
-class RobotState(val direction: Direction, val moving: Boolean)
