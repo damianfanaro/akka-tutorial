@@ -1,6 +1,7 @@
 package com.damianfanaro.akka
 
 import akka.actor.AbstractActor
+import kotlin.random.Random
 
 class Robot : AbstractActor() {
 
@@ -17,9 +18,7 @@ class Robot : AbstractActor() {
         direction = move.direction
         println("path[${self.path()}] I am now moving $direction")
 
-        val random = java.util.Random()
-        val nextInt = random.nextInt(10)
-        if (nextInt % 2 == 0) {
+        if (Random.nextBoundedInt(10).isEven()) {
             context.stop(self)
         }
     }
@@ -37,3 +36,6 @@ enum class Direction {
 
 class Stop
 class Move(val direction: Direction)
+
+fun Int.isEven(): Boolean = this % 2 == 0
+fun Random.nextBoundedInt(bound: Int): Int = this.nextInt(bound)
